@@ -1,0 +1,34 @@
+# MAG Code Python configuration file
+#
+# Typical ini file format
+#
+# DEFAULT section covers all programs, sections are by default program names,
+# or WSGI names
+#
+# Section name has to exist for a program to run
+#
+[DEFAULT]
+# Sample values, example for DMS system
+#run_as_user = magdmd
+#db_user = dms
+#db_password = ScoobyDoo
+#db_name = dms
+
+[magdmd]
+daemon_canary = blau
+#log_level = DEBUG
+#debug_mark = true
+
+[zone_tool]
+# edit timeout in minutes
+#edit_lock_timeout = 2
+
+[mod_wsgi]
+# Settings specific to mod_wsgi scripts
+#jsonrpc_error_stack_trace = True
+
+[admin_dms.wsgi]
+#jsonrpc_error_stack_trace = True
+
+
+

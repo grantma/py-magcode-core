@@ -1,0 +1,6 @@
+# Ignore these pythonisms
+build
+__pycache__/
+*.pyc
+# Vim backup file
+*.swp
