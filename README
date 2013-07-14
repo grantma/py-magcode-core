@@ -4,7 +4,7 @@ MAG Code python3 core module of utility modules. This includes the process
 command line script and daemon framework, SQL Alchemy framework with event
 queue and common WSGI code for JSON http RPC backends.
 
-Programming kindly sponsored by Voyger Internet Ltd, http://www.voyager.co.nz/
+Programming kindly sponsored by Voyager Internet Ltd, http://www.voyager.co.nz/
 
 Released under GPL v3 or later.  See COPYING.
 
