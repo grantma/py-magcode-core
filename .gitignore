@@ -4,5 +4,3 @@ __pycache__/
 *.pyc
 # Vim backup file
 *.swp
-MANIFEST
-dist/
