@@ -1,9 +1,0 @@
-python-magcode-core
------------------
-
-This module has been developed for internal use at Voyager Internet / 
-Net24 Ltd.  It may either be bundled with project (ie DMS) as a git submodule
-for application reliability, or apt-get installed as a Debian package for use
-in small scripts/programs etc.
-
- -- Matthew Grant <matthewgrant5@gmail.com>  Fri, 08 Jun 2012 18:25:57 +1200
