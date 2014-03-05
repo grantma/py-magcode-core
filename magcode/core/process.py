@@ -514,17 +514,15 @@ class DaemonOperations(object):
         except ValueError as e:
             # Error from int() type conversion above
             log_error("%s - %s" % (settings['pid_file'], e))
-        except IOError as e:
-            # File IO causes this
-            if (e.errno in (errno.ENOENT,)):
+        except (IOError, OSError) as e:
+            # ENOENT - File IO causes this, ESRCH - exception is from kill()
+            if (e.errno in (errno.ENOENT, errno.ESRCH)):
                 return False
-            log_error("Could not access PID file '%s' - %s."
-                      % (e.filename, e.strerror))
-        except OSError as e:
-            # This exception is from kill()
-            if (e.errno in (errno.ESRCH,)):
-                return False
-            log_error("Another process is already running - %s." % old_pid)
+            if (e.filename): 
+                log_error("Could not access PID file '%s' - %s."
+                          % (e.filename, e.strerror))
+            else:
+                log_error("Another process is already running - %s." % old_pid)
         except:
             log_error("Unexpected error: %s" % sys.exc_info()[1])
             sys.exit(os.EX_OSERR)
@@ -542,7 +540,7 @@ class DaemonOperations(object):
             pid_file = open(settings['pid_file'], 'w')
             pid_file.write("%s\n" % os.getpid())
             pid_file.close()
-        except IOError as e:
+        except (IOError, OSError) as e:
             log_error("%s - %s." % (e.filename, e.strerror))
             if (e.errno == errno.EPERM or e.errno == errno.EACCES):
                 sys.exit(os.EX_NOPERM)
@@ -561,7 +559,7 @@ class DaemonOperations(object):
         # First fork so that parent can exit
         try:
             pid = os.fork()
-        except OSError as e:
+        except (IOError, OSError) as e:
             # log or stderr something here
             # raise Exception "%s [%d]" % (e.strerror, e.errno)
             os.exit(os.EX_OSERR)
@@ -585,7 +583,7 @@ class DaemonOperations(object):
             # terminal
             try:
                 pid = os.fork()
-            except OSError as e:
+            except (IOError, OSError) as e:
                 # log or stderr something here?
                 # raise Exception "%s [%d]" % (e.strerror, e.errno)
                 sys.exit(os.EX_OSERR)
@@ -623,7 +621,7 @@ class DaemonOperations(object):
                     continue
             try:
                 os.close(fd)
-            except OSError:     # ERROR, fd wasn't open to begin with (ignored)
+            except (IOError, OSError):     # ERROR, fd wasn't open to begin with (ignored)
                 pass
 
         # Redirect stderr, stdout stdin
@@ -646,7 +644,7 @@ class DaemonOperations(object):
         if not(close_all_fds):
             try:
                 self.panic_log = open(settings['panic_log'], 'w')
-            except IOError as e:
+            except (IOError, OSError) as e:
                 log_error("%s - %s." % (e.filename, e.strerror))
                 if (e.errno == errno.EPERM or e.errno == errno.EACCES):
                     sys.exit(os.EX_NOPERM)
@@ -682,7 +680,7 @@ class DaemonOperations(object):
         for fd in range(3, maxfd):
             try:
                 fcntl(fd, F_GETFL)
-            except IOError as e:
+            except (IOError, OSError) as e:
                 if (e.errno == errno.EBADF):
                     continue
                 else:
@@ -690,7 +688,7 @@ class DaemonOperations(object):
                     raise e
             try:
                 os.fchown(fd, new_uid, new_gid)
-            except OSError as e:
+            except (IOError, OSError) as e:
                 if (e.errno == errno.EINVAL):
                     pass
                 else:
@@ -701,7 +699,7 @@ class DaemonOperations(object):
         # and another pocess is none existent (hopefully)...
         try:
             os.chown(settings['pid_file'], new_uid, new_gid)
-        except OSError as e:
+        except (IOError, OSError) as e:
             if (e.errno == errno.ENOENT):
                 pass
             else:

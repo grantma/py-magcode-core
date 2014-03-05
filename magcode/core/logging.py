@@ -210,8 +210,11 @@ class MagCodeLog(object):
                         filename=settings['log_file'],
                         maxBytes=maxBytes,
                         backupCount=settings['log_file_backup_count'])
-            except IOError as e:
-                log_error("%s - %s." % (e.filename, e.strerror))
+            except (IOError, OSError) as e:
+                if (e.filename):
+                    log_error("%s - %s." % (e.filename, e.strerror))
+                else:
+                    log_error("%s." % e.strerror)
                 return
             logfile_handler.setFormatter(self.log_formatter)
             logging.root.addHandler(logfile_handler)

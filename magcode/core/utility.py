@@ -158,14 +158,14 @@ def send_signal(pid_file_name, signal):
         # Error from int() type conversion above
         log_error("%s - %s" % (settings['pid_file'], e))
         return False
-    except IOError as e:
-        # File IO causes this
-        if (e.errno in (errno.ENOENT,)):
+    except (IOError, OSError) as e:
+        if (e.filename):
+            # File IO causes this
+            if (e.errno in (errno.ENOENT,)):
+                return False
+            log_error("Could not access PID file '%s' - %s."
+                      % (e.filename, e.strerror))
             return False
-        log_error("Could not access PID file '%s' - %s."
-                  % (e.filename, e.strerror))
-        return False
-    except OSError as e:
         # This exception is from kill()
         if (e.errno in (errno.ESRCH,)):
             log_error("Process '%s' does not exist." % pid)

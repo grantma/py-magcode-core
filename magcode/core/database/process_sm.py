@@ -189,8 +189,11 @@ class ProcessSM(StateMachine):
             self.stdout = stdout.decode()
             self.stderr = stderr.decode()
         
-        except OSError as exc:
-            error_str = "%s %s - %s" % (log_str, exc.filename, exc.strerror)
+        except (IOError, OSError) as exc:
+            if (exc.filename):
+                error_str = "%s %s - %s" % (log_str, exc.filename, exc.strerror)
+            else:
+                error_str = "%s - %s" % (log_str, exc.strerror)
         except ValueError as exc:
             error_str = "%s - %s" % (log_str, str(exc))
         
