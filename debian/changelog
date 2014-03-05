@@ -1,3 +1,10 @@
+python-magcode-core (1.4.1-1) unstable; urgency=medium
+
+  * Clean up master branch, ignore python install.
+  * Combine IOError and OSError processing, Python 3.3
+
+ -- Matthew Grant <matt@mattgrant.net.nz>  Thu, 06 Mar 2014 12:33:38 +1300
+
 python-magcode-core (1.4.0-1) unstable; urgency=low
 
   * Add magcode top module to setup.py list
