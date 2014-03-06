@@ -21,9 +21,9 @@
 from distutils.core import setup
 
 setup(name='magcode-core',
-    version='1.4.0',
+    version='1.4.2',
     description='MAG Code Core utility module',
     author='Matthew Grant',
-    author_email='matthewgrant5@gmail.com',
+    author_email='matt@mattgrant.net.nz',
     packages=['magcode', 'magcode.core', 'magcode.core.database', 'magcode.core.wsgi'])
 
