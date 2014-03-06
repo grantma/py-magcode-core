@@ -1,3 +1,10 @@
+python-magcode-core (1.4.3-1) unstable; urgency=medium
+
+  * Really update Python setup.py details
+  * Release 1.4.3 to fix Pypi setup script problems
+
+ -- Matthew Grant <matt@mattgrant.net.nz>  Thu, 06 Mar 2014 13:24:44 +1300
+
 python-magcode-core (1.4.1-1) unstable; urgency=medium
 
   * Clean up master branch, ignore python install.
