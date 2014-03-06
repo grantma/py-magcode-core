@@ -21,7 +21,7 @@
 from distutils.core import setup
 
 setup(name='magcode-core',
-    version='1.4.2',
+    version='1.4.3',
     description='MAG Code Core utility module',
     author='Matthew Grant',
     author_email='matt@mattgrant.net.nz',
