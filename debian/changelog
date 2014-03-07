@@ -1,3 +1,10 @@
+python-magcode-core (1.4.3-2) unstable; urgency=medium
+
+  * Fix __pycache__ dirs being in debian install dir
+  * Add python as a build-dep for pyversions
+
+ -- Matthew Grant <matt@mattgrant.net.nz>  Sat, 08 Mar 2014 07:44:34 +1300
+
 python-magcode-core (1.4.3-1) unstable; urgency=medium
 
   * Really update Python setup.py details
