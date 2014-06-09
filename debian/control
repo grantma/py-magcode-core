@@ -12,6 +12,7 @@ Vcs-Browser: https://github.com/grantma/py-magcode-core
 Package: python3-magcode-core
 Architecture: any
 Depends: ${misc:Depends}, ${python3:Depends}
+Recommends: python3-setproctitle
 Description: MAG Code python3 core module of common utility code.
  MAG Code python3 core module of utility modules. This includes the process 
  command line script and daemon framework, SQL Alchemy framework with event
