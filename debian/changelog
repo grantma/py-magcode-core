@@ -4,7 +4,7 @@ python-magcode-core (1.4.3-2) unstable; urgency=medium
   * Add python as a build-dep for pyversions so that Debian can build
     package.
 
- -- Matthew Grant <matt@mattgrant.net.nz>  Sat, 08 Mar 2014 07:44:34 +1300
+ -- Matthew Grant <matt@mattgrant.net.nz>  Tue, 10 Jun 2014 08:57:43 +1200
 
 python-magcode-core (1.4.3-1) unstable; urgency=medium
 
