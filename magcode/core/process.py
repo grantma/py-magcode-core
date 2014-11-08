@@ -227,6 +227,19 @@ class Rpdb2WaitCmdLineArg(BaseCmdLineArg):
         """
         settings['rpdb2_wait'] = value 
 
+class SystemdCmdLineArg(BooleanCmdLineArg):
+    """
+    Start up as a systemd daemon.  Prevents daemonise, and changes
+    logging.
+    """
+    def __init__(self):
+        BooleanCmdLineArg.__init__(self,
+                            short_arg='S',
+                            long_arg='systemd',
+                            help_text="Run as a systemd daemon, no fork",
+                            settings_key = 'systemd',
+                            settings_default_value = False,
+                            settings_set_value = True)
 
 class DebugCmdLineArg(BaseCmdLineArg):
     """
@@ -276,10 +289,11 @@ class DebugCmdLineArg(BaseCmdLineArg):
                 process.usage_full()
                 sys.exit(os.EX_USAGE)
 
-DEFAULT_CMDLINE_ARG_LIST = [DebugCmdLineArg(),
+DEFAULT_CMDLINE_ARG_LIST = [ConfigCmdLineArg(),
+                            DebugCmdLineArg(),
                             HelpCmdLineArg(),
                             MemoryDebugCmdLineArg(),
-                            ConfigCmdLineArg(),
+                            SystemdCmdLineArg(),
                             VerboseCmdLineArg()]
 
 
@@ -729,6 +743,15 @@ class DaemonOperations(object):
         self._init_pwd()
 
         if (debug()):
+            os.chdir(WORKDIR)
+            os.umask(UMASK)
+            self._reduce_privilege()
+            # create a PID file since we are running in debug mode
+            self.create_pid_file()
+            # Exit function
+            return
+
+        if (systemd()):
             os.chdir(WORKDIR)
             os.umask(UMASK)
             self._reduce_privilege()
