@@ -1,3 +1,11 @@
+python-magcode-core (1.4.4-1) unstable; urgency=medium
+
+  * Systemd daemon command line argument
+  * Just minimal foreground for systemd for starters
+  * Bump minor revision switch for systemd switch
+
+ -- Matthew Grant <matthewgrant5@gmail.com>  Sat, 08 Nov 2014 17:37:26 +1300
+
 python-magcode-core (1.4.3-3) unstable; urgency=medium
 
   * Added pytho3-setproctitle as a Recommend.
