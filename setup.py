@@ -18,12 +18,12 @@
 #    You should have received a copy of the GNU  General Public License
 #    along with py-magcode-core.  If not, see <http://www.gnu.org/licenses/>.
 
-from distutils.core import setup
+from setuptools import setup, find_packages
 
 setup(name='magcode-core',
-    version='1.4.3',
+    version='1.4.7',
     description='MAG Code Core utility module',
     author='Matthew Grant',
     author_email='matt@mattgrant.net.nz',
-    packages=['magcode', 'magcode.core', 'magcode.core.database', 'magcode.core.wsgi'])
+    packages=find_packages())
 
