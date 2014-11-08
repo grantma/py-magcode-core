@@ -102,9 +102,6 @@ DEBUG_LEVEL_VERBOSE = 2
 DEBUG_LEVEL_EXTREME = 3
 settings['debug_level'] = DEBUG_LEVEL_NONE
 
-# Run as Systemd daemon
-settings['systemd'] = False
-
 # Directory settings
 settings['config_dir'] = CONFIG_DIR
 settings['log_dir'] = LOG_DIR
@@ -213,13 +210,6 @@ def debug_extreme():
     utility function to return if extreme debugging or not
     """
     return (settings['debug_level'] >= DEBUG_LEVEL_EXTREME)
-
-def systemd():
-    """
-    Utility function to return if running as systemd daemon
-    """
-    return (settings['systemd'])
-
 
 def str_exc(exc):
     return exc.__class__.__name__ + ': ' + str(exc)
