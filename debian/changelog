@@ -3,6 +3,7 @@ python-magcode-core (1.4.7-1) unstable; urgency=medium
   * Systemd stay in foreground support - v1.4.7
   * Bump version to correct one in setup.py
   * Update version to fix upload issues with pypi.python.org
+  * Update standards version to 3.9.6
 
  -- Matthew Grant <matt@mattgrant.net.nz>  Sat, 08 Nov 2014 18:36:50 +1300
 
