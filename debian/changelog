@@ -4,8 +4,9 @@ python-magcode-core (1.4.7-1) unstable; urgency=medium
   * Bump version to correct one in setup.py
   * Update version to fix upload issues with pypi.python.org
   * Update standards version to 3.9.6
+  * Fix short licnse tag in copyright file
 
- -- Matthew Grant <matt@mattgrant.net.nz>  Sat, 08 Nov 2014 18:36:50 +1300
+ -- Matthew Grant <matt@mattgrant.net.nz>  Sat, 08 Nov 2014 18:41:59 +1300
 
 python-magcode-core (1.4.4-1) unstable; urgency=medium
 
