@@ -751,6 +751,15 @@ class DaemonOperations(object):
             # Exit function
             return
 
+        if (systemd()):
+            os.chdir(WORKDIR)
+            os.umask(UMASK)
+            self._reduce_privilege()
+            # create a PID file since we are running in debug mode
+            self.create_pid_file()
+            # Exit function
+            return
+
         # Turn off stderr output before we fork away
         remove_daemon_stderr_logging()
 
