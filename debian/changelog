@@ -1,3 +1,12 @@
+python-magcode-core (1.4.7-2~1.gbp320b0a) UNRELEASED; urgency=medium
+
+  ** SNAPSHOT build @320b0aa0ac97d3e42768f8d34edd07fc60fedf84 **
+
+  * UNRELEASED
+  * Make it build properly - dh-python issues (Closes: #769001)
+
+ -- Matthew Grant <matt@mattgrant.net.nz>  Thu, 13 Nov 2014 07:10:00 +1300
+
 python-magcode-core (1.4.7-1) unstable; urgency=medium
 
   * Systemd stay in foreground support - v1.4.7
