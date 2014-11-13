@@ -3,7 +3,7 @@ python-magcode-core (1.4.7-2) unstable; urgency=medium
   * Make it build properly - update debian/control to fix build issues
     (Closes: #769001)
 
- -- Matthew Grant <matt@mattgrant.net.nz>  Thu, 13 Nov 2014 07:17:51 +1300
+ -- Matthew Grant <matt@mattgrant.net.nz>  Thu, 13 Nov 2014 22:07:52 +1300
 
 python-magcode-core (1.4.7-1) unstable; urgency=medium
 
