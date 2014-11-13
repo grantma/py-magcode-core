@@ -1,3 +1,10 @@
+python-magcode-core (1.4.7-3) unstable; urgency=medium
+
+  * Build-depend on python-setuptools
+    Really fix #769001 (Closes: #769001)
+
+ -- Matthew Grant <matt@mattgrant.net.nz>  Thu, 13 Nov 2014 22:12:42 +1300
+
 python-magcode-core (1.4.7-2) unstable; urgency=medium
 
   * Make it build properly - update debian/control to fix build issues
