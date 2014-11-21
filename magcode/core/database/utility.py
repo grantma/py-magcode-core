@@ -379,11 +379,11 @@ def setup_sqlalchemy():
     try:
         core_setup_sqlalchemy()
     except DBAPIError:
-        sys.exit(os.EX_NOHOST)
+        systemd_exit(os.EX_NOHOST, SDEX_GENERIC)
     except NoSuchTableError:
-        sys.exit(os.EX_NOINPUT)
+        systemd_exit(os.EX_NOINPUT, SDEX_UNIMPLEMENTED)
     except RuntimeError:
-        sys.exit(os.EX_CONFIG)
+        systemd_exit(os.EX_CONFIG, SDEX_CONFIG)
 
 def db_clock_unixtime(db_session):
     """
