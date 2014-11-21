@@ -379,7 +379,7 @@ def setup_sqlalchemy():
     try:
         core_setup_sqlalchemy()
     except DBAPIError:
-        systemd_exit(os.EX_NOHOST, SDEX_GENERIC)
+        systemd_exit(os.EX_NOHOST, SDEX_CONFIG)
     except NoSuchTableError:
         systemd_exit(os.EX_NOINPUT, SDEX_UNIMPLEMENTED)
     except RuntimeError:

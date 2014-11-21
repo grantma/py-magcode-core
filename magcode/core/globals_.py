@@ -110,7 +110,7 @@ SDEX_UNIMPLEMENTED = 3  #unimplemented feature
 SDEX_NOPERM = 4         # insufficient priveilege
 SDEX_NOTINSTALLED = 5   # Program is not installed
 SDEX_CONFIG = 6         # Program is not configured
-SDEX_RUNNING = 7        # Program is already running
+SDEX_NOTRUNNING = 7     # Program is not running
 
 
 # Run as Systemd daemon
