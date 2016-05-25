@@ -18,7 +18,7 @@
 #    You should have received a copy of the GNU  General Public License
 #    along with py-magcode-core.  If not, see <http://www.gnu.org/licenses/>.
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(name='magcode-core',
     version='1.4.8',
