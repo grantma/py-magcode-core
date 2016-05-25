@@ -7,3 +7,4 @@ __pycache__/
 MANIFEST
 dist/
 debian/
+magcode_core.egg-info/

@@ -100,7 +100,7 @@ class BaseCmdLineArg(object):
         otherwise exits program.
         """
         process.usage_short()
-        sys.exit(os.EX_USAGE)
+        systemd_exit(os.EX_USAGE, SDEX_USAGE)
 
 class HelpCmdLineArg(BaseCmdLineArg):
     """
@@ -280,14 +280,14 @@ class DebugCmdLineArg(BaseCmdLineArg):
             if (val < DEBUG_LEVEL_NONE
                     and val > DEBUG_LEVEL_EXTREME):
                 process.usage_full()
-                sys.exit(os.EX_USAGE)
+                systemd_exit(os.EX_USAGE, SDEX_USAGE)
             settings['debug_level'] = val
         except ValueError:
             if (value in DebugCmdLineArg.debug_levels.keys()):
                 settings['debug_level'] = DebugCmdLineArg.debug_levels[value]
             else:
                 process.usage_full()
-                sys.exit(os.EX_USAGE)
+                systemd_exit(os.EX_USAGE, SDEX_USAGE)
 
 DEFAULT_CMDLINE_ARG_LIST = [ConfigCmdLineArg(),
                             DebugCmdLineArg(),
@@ -349,14 +349,14 @@ class ProcessCmdLine(object):
 
         except GetoptError:
             self.usage_short()
-            sys.exit(os.EX_USAGE)
+            systemd_exit(os.EX_USAGE, SDEX_USAGE)
 
         for arg, val in opts:
             # strip '-' from a
             arg = arg.lstrip('-')
             if (arg not in callback_dict.keys()):
                 self.usage_short()
-                sys.exit(os.EX_USAGE)
+                systemd_exit(os.EX_USAGE, SDEX_USAGE)
             callback_dict[arg].process_arg(process=self,
                     argument=arg, value=val)
 
@@ -372,7 +372,7 @@ class ProcessCmdLine(object):
         """
         if (len(argv_left) != 0):
             self.usage_short()
-            sys.exit(os.EX_USAGE)
+            systemd_exit(os.EX_USAGE, SDEX_USAGE)
 
     def usage_short(self, tty_file=sys.stderr):
         """
@@ -434,16 +434,16 @@ class Process(ProcessCmdLine):
         # Handle file opening and read errors
         except (IOError,OSError) as e:
             if (e.errno == errno.EPERM or e.errno == errno.EACCES):
-                sys.exit(os.EX_NOPERM)
+                systemd_exit(os.EX_NOPERM, SDEX_NOPERM)
             else:
-                sys.exit(os.EX_IOERR)
+                systemd_exit(os.EX_IOERR, SDEX_GENERIC)
 
         # Handle all configuration file parsing errors
         except configparser.Error as e:
-            sys.exit(os.EX_CONFIG)
+            systemd_exit(os.EX_CONFIG, SDEX_CONFIG)
         
         except MagCodeConfigError as e:
-            sys.exit(os.EX_CONFIG)
+            systemd_exit(os.EX_CONFIG, SDEX_CONFIG)
 
     def check_if_root(self):
         """
@@ -454,7 +454,7 @@ class Process(ProcessCmdLine):
         # check that we are root for file writing permissions stuff
         if (os.geteuid() != 0 ):
             log_error("Only root can execute this command")
-            sys.exit(os.EX_NOPERM)
+            systemd_exit(os.EX_NOPERM, SDEX_NOPERM)
     
     def check_or_force(self, exit_on_no=True):
         """
@@ -470,7 +470,7 @@ class Process(ProcessCmdLine):
                 answer = input('\t--y/[N]> ')
                 if answer in ('n', 'N', ''):
                     if exit_on_no:
-                        sys.exit(os.EX_TEMPFAIL)
+                        systemd_exit(os.EX_TEMPFAIL, SDEX_GENERIC)
                     return False
                 elif answer in ('y', 'Y'):
                     return True
@@ -539,12 +539,12 @@ class DaemonOperations(object):
                 log_error("Another process is already running - %s." % old_pid)
         except:
             log_error("Unexpected error: %s" % sys.exc_info()[1])
-            sys.exit(os.EX_OSERR)
+            systemd_exit(os.EX_OSERR, SDEX_GENERIC)
         else:
             log_error("Another process is already running - %s." % old_pid)
        
         # If we can't run at all, exit!
-        sys.exit(os.EX_CANTCREAT)
+        systemd_exit(os.EX_CANTCREAT, SDEX_GENERIC)
 
     def create_pid_file(self):
         """
@@ -557,9 +557,9 @@ class DaemonOperations(object):
         except (IOError, OSError) as e:
             log_error("%s - %s." % (e.filename, e.strerror))
             if (e.errno == errno.EPERM or e.errno == errno.EACCES):
-                sys.exit(os.EX_NOPERM)
+                systemd_exit(os.EX_NOPERM, SDEX_NOPERM)
             else:
-                sys.exit(os.EX_IOERR)
+                systemd_exit(os.EX_IOERR, SDEX_GENERIC)
         
     def _do_forks(self):
         """
@@ -576,7 +576,7 @@ class DaemonOperations(object):
         except (IOError, OSError) as e:
             # log or stderr something here
             # raise Exception "%s [%d]" % (e.strerror, e.errno)
-            os.exit(os.EX_OSERR)
+            systemd_exit(os.EX_OSERR, SDEX_GENERIC)
 
         if (pid == 0):
             # First child
@@ -600,7 +600,7 @@ class DaemonOperations(object):
             except (IOError, OSError) as e:
                 # log or stderr something here?
                 # raise Exception "%s [%d]" % (e.strerror, e.errno)
-                sys.exit(os.EX_OSERR)
+                systemd_exit(os.EX_OSERR, SDEX_GENERIC)
 
             if (pid != 0):
                 # use _exit() as it does not pfaff around with pythonic cleanup
@@ -661,9 +661,9 @@ class DaemonOperations(object):
             except (IOError, OSError) as e:
                 log_error("%s - %s." % (e.filename, e.strerror))
                 if (e.errno == errno.EPERM or e.errno == errno.EACCES):
-                    sys.exit(os.EX_NOPERM)
+                    systemd_exit(os.EX_NOPERM, SDEX_NOPERM)
                 else:
-                    sys.exit(os.EX_IOERR)
+                    systemd_exit(os.EX_IOERR, SDEX_GENERIC)
             fd_top = self.panic_log.fileno()
 
         return (fd_top)
@@ -718,7 +718,7 @@ class DaemonOperations(object):
                 pass
             else:
                 log_error("%s - %s." % (e.filename, e.strerror))
-                sys.exit(os.EX_OSERR)
+                systemd_exit(os.EX_OSERR, SDEX_GENERIC)
 
         # Drop privilege
         try:
@@ -963,7 +963,7 @@ class ProcessDaemon(Process, DaemonOperations, SignalBusiness):
             print("%s: Only root can execute this program."
                     % process_name,
                 file=sys.stderr)
-            sys.exit(os.EX_NOPERM)
+            systemd_exit(os.EX_NOPERM, SDEX_NOPERM)
         return(0)
    
     def main_process(self):

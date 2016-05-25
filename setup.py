@@ -18,10 +18,10 @@
 #    You should have received a copy of the GNU  General Public License
 #    along with py-magcode-core.  If not, see <http://www.gnu.org/licenses/>.
 
-from setuptools import setup, find_packages
+from setuptools import setup
 
 setup(name='magcode-core',
-    version='1.4.7',
+    version='1.4.8',
     description='MAG Code Core utility module',
     author='Matthew Grant',
     author_email='matt@mattgrant.net.nz',
