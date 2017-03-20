@@ -11,7 +11,7 @@ Vcs-Git: https://github.com/grantma/py-magcode-core.git
 Vcs-Browser: https://github.com/grantma/py-magcode-core
 
 Package: python3-magcode-core
-Architecture: any
+Architecture: all
 Depends: ${misc:Depends}, ${python3:Depends}
 Recommends: python3-setproctitle
 Description: MAG Code python3 core module of common utility code.
