@@ -1,15 +1,3 @@
-python-magcode-core (1.4.7-4) unstable; urgency=medium
-
-  * WIP - first part of Systemd exit code changes
-  * Last of system exit code calls converted.
-  * Some minor corrections
-  * Version 1.4.8
-  * Convert to setuptools from distutils
-  * Fix up setup.py after merge with master from github
-  * Version 1.4.9 - Add find_packages import setup.py
-
- -- Matthew Grant <matt@mattgrant.net.nz>  Mon, 20 Mar 2017 21:37:56 +1300
-
 python-magcode-core (1.4.7-3) unstable; urgency=medium
 
   * Build-depend on python-setuptools
