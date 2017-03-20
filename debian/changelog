@@ -1,3 +1,16 @@
+python-magcode-core (1.4.9-1) unstable; urgency=medium
+
+  * Systemd exit code calls and support.
+  * Some minor corrections
+  * Version 1.4.8
+  * Convert to setuptools from distutils
+  * Fix up setup.py after merge with master from github
+  * Version 1.4.9 - Add find_packages import setup.py
+  * Set Arch: all and build dep on python3-all (Closes: #751483)
+  * Update format of debian/gbp.conf
+
+ -- Matthew Grant <matt@mattgrant.net.nz>  Mon, 20 Mar 2017 21:46:03 +1300
+
 python-magcode-core (1.4.7-3) unstable; urgency=medium
 
   * Build-depend on python-setuptools
