@@ -102,6 +102,17 @@ DEBUG_LEVEL_VERBOSE = 2
 DEBUG_LEVEL_EXTREME = 3
 settings['debug_level'] = DEBUG_LEVEL_NONE
 
+# Systemd daemon exit codes from 
+# http://refspecs.linuxbase.org/LSB_3.1.1/LSB-Core-generic/LSB-Core-generic/iniscrptact.html
+SDEX_GENERIC = 1        #generic or unspecified error (current practice)
+SDEX_USAGE = 2          #invalid or excess argument(s)
+SDEX_UNIMPLEMENTED = 3  #unimplemented feature
+SDEX_NOPERM = 4         # insufficient priveilege
+SDEX_NOTINSTALLED = 5   # Program is not installed
+SDEX_CONFIG = 6         # Program is not configured
+SDEX_NOTRUNNING = 7     # Program is not running
+
+
 # Run as Systemd daemon
 settings['systemd'] = False
 
@@ -220,6 +231,10 @@ def systemd():
     """
     return (settings['systemd'])
 
+def systemd_exit(normal_exit_code=1, sd_exit_code=1):
+    if systemd():
+        sys.exit(sd_exit_code)
+    sys.exit(normal_exit_code)
 
 def str_exc(exc):
     return exc.__class__.__name__ + ': ' + str(exc)

@@ -97,7 +97,7 @@ def get_numeric_setting(key, type_, **kw_type_args):
         value = settings[key]
     except KeyError:
         startup_log_func("Setting '%s' does not exist" % key)
-        sys.exit(os.EX_SOFTWARE)
+        systemd_exit(os.EX_SOFTWARE, SDEX_UNIMPLEMENTED)
     if type(value) is type_:
         # if already converted, just directly return value
         return value
@@ -107,7 +107,7 @@ def get_numeric_setting(key, type_, **kw_type_args):
         startup_log_func("Can't convert value '%s' "
                     "- setting '%s' requires a %s value"
                     % (value, key, str(type_)))
-        sys.exit(os.EX_CONFIG)
+        systemd_exit(os.EX_CONFIG, SDEX_CONFIG)
     return value
 
 _true_strings = ('true', 'on', 'yes', '1', 'up', 'enable', 'enabled')
@@ -123,7 +123,7 @@ def get_boolean_setting(key):
         value = settings[key]
     except KeyError:
         startup_log_func("Setting '%s' does not exist" % key)
-        sys.exit(os.EX_SOFTWARE)
+        systemd_exit(os.EX_SOFTWARE, SDEX_UNIMPLEMENTED)
     if type(value) is bool:
         # Deal with direct Boolean assignment in a globals_ file
         return value
@@ -136,7 +136,7 @@ def get_boolean_setting(key):
     startup_log_func("Can't convert value '%s' "
                 "- setting '%s' requires value in %s"
                     % (value, key, _bool_strings))
-    sys.exit(os.EX_CONFIG)
+    systemd_exit(os.EX_CONFIG, SDEX_CONFIG)
     
 def send_signal(pid_file_name, signal):
     """
