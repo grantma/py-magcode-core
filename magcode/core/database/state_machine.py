@@ -25,6 +25,7 @@ import sys
 from functools import wraps
 
 from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy import text
 
 from magcode.core.logging import *
 from magcode.core.globals_ import *
@@ -193,7 +194,7 @@ class StateMachine(object):
         try:
             sm_obj = event.db_session.query(class_)\
                             .with_lockmode('update')\
-                            .filter("id = '%s'" % sm_id).one()
+                            .filter(text("id = '%s'" % sm_id)).one()
         except NoResultFound: 
             sm_obj = None
 
