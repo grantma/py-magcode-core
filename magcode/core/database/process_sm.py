@@ -25,6 +25,7 @@ import threading
 import copy
 from subprocess import *
 
+from sqlalchemy import text
 from sqlalchemy.exc import DBAPIError
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import sessionmaker
@@ -344,7 +345,7 @@ def get_process_results(db_session, sm_id):
     """
     try:
         sm_obj = event.db_session.query(ProcessSM)\
-                        .filter("id = '%s'" % sm_id).one()
+                        .filter(text("id = '%s'" % sm_id)).one()
     except NoResultFound: 
         sm_obj = None
     return sm_obj
