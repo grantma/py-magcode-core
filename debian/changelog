@@ -1,3 +1,10 @@
+python-magcode-core (1.4.10-1) unstable; urgency=medium
+
+  * Fix SAWarning(s) around textual query SQL
+  * Version 1.4.10
+
+ -- Matthew Grant <matt@mattgrant.net.nz>  Sat, 29 Apr 2017 09:26:15 +1200
+
 python-magcode-core (1.4.9-1) unstable; urgency=medium
 
   * Systemd exit code calls and support.
