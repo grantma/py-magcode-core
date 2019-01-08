@@ -27,6 +27,7 @@ import errno
 import socket
 import os
 import re
+import ctypes
 from subprocess import check_output
 from subprocess import CalledProcessError
 
@@ -235,3 +236,22 @@ def get_configured_addresses(with_loopback=False, with_link_local=False):
         ifcmd_output = [line for line in ifcmd_output 
                     if not _re_iface_ll_addr_match.search(line)]
     return ifcmd_output
+
+# For bypassing Python sleep.time(), after Python 3.5 its effectively
+# non interruptable
+if '_libc' not in globals():
+    _libc = ctypes.CDLL(LIBC_NAME)
+
+def libc_sleep(seconds):
+    """
+    Interruptable libc sleep() function
+
+    For bypassing Python sleep.time(), after Python 3.5 its effectively
+    non-interruptable and breaks daemon model used here
+    """
+    secs = seconds
+    if (type(secs) is str):
+        secs = int(secs.strip())
+    elif (type(secs) is not int):
+        secs = int(secs)
+    return _libc.sleep(secs)
