@@ -1,9 +1,9 @@
-python-magcode-core (1.4.11-2) unstable; urgency=medium
+python-magcode-core (1.4.12-1) unstable; urgency=medium
 
   * Module Version 1.4.12
   * Fix daemon check processing - SIGHUP works
 
- -- Matthew Grant <matt@mattgrant.net.nz>  Wed, 09 Jan 2019 09:06:37 +1300
+ -- Matthew Grant <matt@mattgrant.net.nz>  Wed, 09 Jan 2019 09:07:22 +1300
 
 python-magcode-core (1.4.11-1) unstable; urgency=medium
 
