@@ -450,7 +450,7 @@ class Process(ProcessCmdLine):
         """
         Check that we are running as root, if not exit with message.
 
-	ProcessDaemon bleow overrides this.  It is here for script utilities.
+	ProcessDaemon below overrides this.  It is here for script utilities.
         """
         # check that we are root for file writing permissions stuff
         if (os.geteuid() != 0 ):
@@ -524,7 +524,7 @@ class DaemonOperations(object):
             # Sending signal 0 does not touch process, but  call succeeds
             # if it exists
             os.kill(old_pid, 0)
-            if (self.i_am_daemon()):
+            if (old_pid == os.getpid()):
                 return True
         except ValueError as e:
             # Error from int() type conversion above
@@ -797,7 +797,9 @@ class DaemonOperations(object):
         pgid = os.getpgid(0)
         ppid = os.getppid()
 
-        if (ppid == 1  and sid == pgid and pid != sid):
+        # Think following is being overcautious....
+        #if (ppid == 1  and sid == pgid and pid != sid):
+        if (ppid == 1):
             return True
         else:
             return False
