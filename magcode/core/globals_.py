@@ -80,6 +80,8 @@ if (_os_family == "FreeBSD"):
         PID_FILE = RUN_DIR + "/" + process_name + ".pid"
         LOG_FILE = LOG_DIR + process_name + ".log"
         PANIC_LOG = LOG_DIR + process_name + "-panic.log"
+        RELEASE_MAJOR = os.uname().release.partition('.')[0]
+        LIBC_NAME = 'libc.so.' + RELEASE_MAJOR
 elif(_os_family == "Linux"):
         CONFIG_DIR = "/etc/magcode"
         VAR_LIB_DIR = "/var/lib/magcode"
@@ -89,6 +91,8 @@ elif(_os_family == "Linux"):
         PID_FILE = RUN_DIR + "/" + process_name + ".pid"
         LOG_FILE = LOG_DIR + process_name + ".log"
         PANIC_LOG = LOG_DIR + process_name + "-panic.log"
+        RELEASE_MAJOR = os.uname().release.partition('.')[0]
+        LIBC_NAME = 'libc.so.6'
 else:
     raise Exception("Unrecognised OS '%s'" % _os_family)
 settings['os_family'] = _os_family
