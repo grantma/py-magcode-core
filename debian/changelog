@@ -1,3 +1,12 @@
+python-magcode-core (1.4.13-1~0mag0) unstable; urgency=medium
+
+  * No attached terminal for deteing daemonisation.
+  * Only icall close() for each fd, don't repeat close on fd on SIGHUP
+    as per man 2 close().  Process observed to when this was done.
+  * Version 1.4.13 - tested and daemonising!
+
+ -- Matthew Grant <matt@mattgrant.net.nz>  Thu, 10 Jan 2019 09:40:18 +1300
+
 python-magcode-core (1.4.12-1) unstable; urgency=medium
 
   * Module Version 1.4.12
