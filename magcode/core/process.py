@@ -627,17 +627,20 @@ class DaemonOperations(object):
         maxfd = resource.getrlimit(resource.RLIMIT_NOFILE)[1]
         if (maxfd == resource.RLIM_INFINITY):
             maxfd = MAXFD
-        
-        # Iterate through and close all file descriptors.
-        for fd in range(0, maxfd):
-            if (fd_top):
-                # skip python logging/syslog fds etc!
-                if (fd <= fd_top and fd > 2):
-                    continue
-            try:
-                os.close(fd)
-            except (IOError, OSError):     # ERROR, fd wasn't open to begin with (ignored)
-                pass
+
+        # Iterate through and close all file descriptors
+        # Don't try and close file descriptors twice on SIGHUP as per 
+        # man 2 close(), process observed getting reaped somehow...
+        if (not self.i_am_daemon()):
+            for fd in range(0, maxfd):
+                if (fd_top):
+                    # skip python logging/syslog fds etc!
+                    if (fd <= fd_top and fd > 2):
+                        continue
+                try:
+                    os.close(fd)
+                except (IOError, OSError):     # ERROR, fd wasn't open to begin with (ignored)
+                    pass
 
         # Redirect stderr, stdout stdin
         # This call to open is guaranteed to return the lowest file 
@@ -756,7 +759,7 @@ class DaemonOperations(object):
             os.chdir(WORKDIR)
             os.umask(UMASK)
             self._reduce_privilege()
-            # create a PID file since we are running in debug mode
+            # create a PID file since we are running in systemd mode
             self.create_pid_file()
             # Exit function
             return
@@ -797,10 +800,11 @@ class DaemonOperations(object):
         pgid = os.getpgid(0)
         ppid = os.getppid()
 
-        # Think following is being overcautious....
-        #if (ppid == 1  and sid == pgid and pid != sid):
-        #if (ppid == 1):
-        #if (not os.isatty(sys.stdin.fileno()) and sid == pgid and pid != sid):
+        # Being detached from a controlling terminal is the major detectable
+        # outcome of legacy daemonisation.  Only use this one major property
+        # as the determinant for this test.  Systemd may mess with program 
+        # group/session IDs as it 'keeps'/moves the process back to a 
+        # controlling session for a user????
         if (not os.isatty(sys.stdin.fileno())):
             return True
         else:
