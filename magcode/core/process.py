@@ -799,7 +799,9 @@ class DaemonOperations(object):
 
         # Think following is being overcautious....
         #if (ppid == 1  and sid == pgid and pid != sid):
-        if (ppid == 1):
+        #if (ppid == 1):
+        #if (not os.isatty(sys.stdin.fileno()) and sid == pgid and pid != sid):
+        if (not os.isatty(sys.stdin.fileno())):
             return True
         else:
             return False
