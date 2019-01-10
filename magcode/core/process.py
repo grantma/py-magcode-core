@@ -67,7 +67,7 @@ UMASK = 0o0022
 MAXFD = 1024
 REDIRECT_TO = "/dev/null"
 # Default Command line help messages
-STUB_USAGE_MESSAGE = "Usage: %s [-dhv] [-c config_file] [-r rpdb2_wait] (Stub 'usage_short()' msg)"
+STUB_USAGE_MESSAGE = "Usage: %s [-dhv] [-c config_file] (Stub 'usage_short()' msg)"
 STUB_COMMAND_DESCRIPTION = "Command description (Stub 'usage_full()' message.)"
 
 
@@ -293,8 +293,6 @@ class DebugCmdLineArg(BaseCmdLineArg):
 DEFAULT_CMDLINE_ARG_LIST = [ConfigCmdLineArg(),
                             DebugCmdLineArg(),
                             HelpCmdLineArg(),
-                            MemoryDebugCmdLineArg(),
-                            SystemdCmdLineArg(),
                             VerboseCmdLineArg()]
 
 
@@ -960,7 +958,9 @@ class ProcessDaemon(Process, DaemonOperations, SignalBusiness):
         Add wait for Rpdb2 to commande line
         """
         Process.__init__(self, *args, **kwargs)
+        self.cmdline_arg_list.append(MemoryDebugCmdLineArg())
         self.cmdline_arg_list.append(Rpdb2WaitCmdLineArg())
+        self.cmdline_arg_list.append(SystemdCmdLineArg())
     
     def check_if_root(self):
         """
