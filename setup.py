@@ -21,7 +21,7 @@
 from setuptools import setup, find_packages
 
 setup(name='magcode-core',
-    version='1.4.13',
+    version='1.4.14',
     description='MAG Code Core utility module',
     author='Matthew Grant',
     author_email='matt@mattgrant.net.nz',
