@@ -6,7 +6,7 @@ python-magcode-core (1.4.13-1) unstable; urgency=medium
   * Version 1.4.13 - tested and daemonising!
   * Fix lintian warnings
 
- -- Matthew Grant <matt@mattgrant.net.nz>  Thu, 10 Jan 2019 09:40:18 +1300
+ -- Matthew Grant <matt@mattgrant.net.nz>  Thu, 10 Jan 2019 15:23:55 +1300
 
 python-magcode-core (1.4.12-1) unstable; urgency=medium
 
