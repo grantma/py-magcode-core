@@ -1,3 +1,10 @@
+python-magcode-core (1.5.2-1) unstable; urgency=medium
+
+  * Go to mix-in process MainSleep class to decruftify
+  * Module version 1.5.2
+
+ -- Matthew Grant <matt@mattgrant.net.nz>  Wed, 16 Jan 2019 09:01:06 +1300
+
 python-magcode-core (1.5.1-1) unstable; urgency=medium
 
   * Stub fN libc_sleep() calling main_sleep()
