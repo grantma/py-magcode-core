@@ -278,3 +278,8 @@ def main_sleep(seconds):
             if exc.errno not in (errno.EINTR, errno.EAGAIN):
                 raise(exc)
     return
+
+# Stub main_sleep() over libc_sleep for compatibility
+def libc_sleep (seconds):
+    return main_sleep(seconds)
+
