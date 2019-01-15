@@ -30,6 +30,7 @@ import sys
 import pwd
 import errno
 import signal
+import select
 import time
 import resource
 import configparser
@@ -53,7 +54,6 @@ from magcode.core.logging import setup_file_logging
 from magcode.core.logging import remove_daemon_stderr_logging
 from magcode.core.utility import core_read_config
 from magcode.core.utility import MagCodeConfigError
-from magcode.core.utility import main_sleep
 
 # Default working directory
 WORKDIR = "/"
@@ -808,6 +808,42 @@ class DaemonOperations(object):
         else:
             return False
     
+class MainSleep(object):
+    """
+    Interruptable sleep() class for processes main()
+
+    Alternative to Python sleep.time(), and IS interruptible with signals
+    After Python 3.5 time.sleep() is effectively non-interruptable with signals
+    """
+
+    def init_sleep(self):
+        """
+        Initialises sleep functionality by set up named pipe and setting
+        up signal delivery via this
+        """
+        self._fdpipe = os.pipe2(os.O_NONBLOCK|os.O_CLOEXEC)
+        signal.set_wakeup_fd(self._fdpipe[1])
+
+    def main_sleep(self, seconds):
+        """
+        Interruptable sleep() function for processes main()
+        """
+        secs = seconds
+        if (type(secs) is str):
+            secs = int(secs.strip())
+        elif (type(secs) is not int):
+            secs = int(secs)
+        while True:
+            try:
+                nr, blah1, blah2 = select.select([self._fdpipe[0]], [], [], secs)
+                if nr:
+                    os.read(self._fdpipe[0], 16384)
+                break
+            except (IOError, OSError) as exc:
+                if exc.errno not in (errno.EINTR, errno.EAGAIN):
+                    raise(exc)
+        return
+
 
 class SignalHandler(object):
     """
@@ -948,7 +984,7 @@ class SignalBusiness(object):
 
 
 
-class ProcessDaemon(Process, DaemonOperations, SignalBusiness):
+class ProcessDaemon(Process, DaemonOperations, SignalBusiness, MainSleep):
     """
     Main daemon process class
     """
@@ -1008,7 +1044,7 @@ class ProcessDaemon(Process, DaemonOperations, SignalBusiness):
             sleep_time = float(settings['sleep_time'])
             log_debug("Process.main_process() - sleep(%s) seconds."
                     % sleep_time) 
-            main_sleep(sleep_time)
+            self.main_sleep(sleep_time)
 
         log_info('Exited main loop - process terminating normally.')
         sys.exit(os.EX_OK)
@@ -1027,6 +1063,7 @@ class ProcessDaemon(Process, DaemonOperations, SignalBusiness):
         self.daemonize()
         setup_file_logging()
         self.init_signals()
+        self.init_sleep()
         self.main_process()
 
 

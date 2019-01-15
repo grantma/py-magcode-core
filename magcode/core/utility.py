@@ -27,9 +27,6 @@ import errno
 import socket
 import os
 import re
-import fcntl
-import select
-import signal
 from subprocess import check_output
 from subprocess import CalledProcessError
 
@@ -238,48 +235,4 @@ def get_configured_addresses(with_loopback=False, with_link_local=False):
         ifcmd_output = [line for line in ifcmd_output 
                     if not _re_iface_ll_addr_match.search(line)]
     return ifcmd_output
-
-# For bypassing Python sleep.time(), after Python 3.5 its effectively
-# non interruptable
-def _fd_nonblock(fd):
-    bits = fcntl.fcntl(fd, fcntl.F_GETFL)
-    bits |= os.O_NONBLOCK
-    fcntl.fcntl(fd, fcntl.F_SETFL, bits)
-
-_fdpipe = None
-
-def _setup_sleep():
-    global _fdpipe
-    _fdpipe  = os.pipe()
-    _fd_nonblock(_fdpipe[0])
-    _fd_nonblock(_fdpipe[1])
-    signal.set_wakeup_fd(_fdpipe[1])
-
-def main_sleep(seconds):
-    """
-    Interruptable sleep() function for processes main()
-
-    Alternative to Python sleep.time(), and IS interruptible with sginals
-    """
-    if not _fdpipe:
-        _setup_sleep()
-    secs = seconds
-    if (type(secs) is str):
-        secs = int(secs.strip())
-    elif (type(secs) is not int):
-        secs = int(secs)
-    while True:
-        try:
-            nr, blah1, blah2 = select.select([_fdpipe[0]], [], [], secs)
-            if nr:
-                os.read(_fdpipe[0], 16384)
-            break
-        except (IOError, OSError) as exc:
-            if exc.errno not in (errno.EINTR, errno.EAGAIN):
-                raise(exc)
-    return
-
-# Stub main_sleep() over libc_sleep for compatibility
-def libc_sleep (seconds):
-    return main_sleep(seconds)
 
