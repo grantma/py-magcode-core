@@ -1,3 +1,10 @@
+python-magcode-core (1.5.1-1) unstable; urgency=medium
+
+  * Stub fN libc_sleep() calling main_sleep()
+  * Module version 1.5.1
+
+ -- Matthew Grant <matt@mattgrant.net.nz>  Tue, 15 Jan 2019 22:12:10 +1300
+
 python-magcode-core (1.5.0-1) unstable; urgency=medium
 
   * Replacement main_sleep() in native python
