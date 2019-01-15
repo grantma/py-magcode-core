@@ -53,7 +53,7 @@ from magcode.core.logging import setup_file_logging
 from magcode.core.logging import remove_daemon_stderr_logging
 from magcode.core.utility import core_read_config
 from magcode.core.utility import MagCodeConfigError
-from magcode.core.utility import libc_sleep
+from magcode.core.utility import main_sleep
 
 # Default working directory
 WORKDIR = "/"
@@ -1008,7 +1008,7 @@ class ProcessDaemon(Process, DaemonOperations, SignalBusiness):
             sleep_time = float(settings['sleep_time'])
             log_debug("Process.main_process() - sleep(%s) seconds."
                     % sleep_time) 
-            libc_sleep(sleep_time)
+            main_sleep(sleep_time)
 
         log_info('Exited main loop - process terminating normally.')
         sys.exit(os.EX_OK)

@@ -27,7 +27,9 @@ import errno
 import socket
 import os
 import re
-import ctypes
+import fcntl
+import select
+import signal
 from subprocess import check_output
 from subprocess import CalledProcessError
 
@@ -239,20 +241,40 @@ def get_configured_addresses(with_loopback=False, with_link_local=False):
 
 # For bypassing Python sleep.time(), after Python 3.5 its effectively
 # non interruptable
-if '_libc' not in globals():
-    _libc = ctypes.CDLL(LIBC_NAME)
+def _fd_nonblock(fd):
+    bits = fcntl.fcntl(fd, fcntl.F_GETFL)
+    bits |= os.O_NONBLOCK
+    fcntl.fcntl(fd, fcntl.F_SETFL, bits)
 
-def libc_sleep(seconds):
-    """
-    Interruptable libc sleep() function
+_fdpipe = None
 
-    For bypassing Python sleep.time(), after Python 3.5 its effectively
-    non-interruptable and breaks daemon model used here
+def _setup_sleep():
+    global _fdpipe
+    _fdpipe  = os.pipe()
+    _fd_nonblock(_fdpipe[0])
+    _fd_nonblock(_fdpipe[1])
+    signal.set_wakeup_fd(_fdpipe[1])
+
+def main_sleep(seconds):
     """
+    Interruptable sleep() function for processes main()
+
+    Alternative to Python sleep.time(), and IS interruptible with sginals
+    """
+    if not _fdpipe:
+        _setup_sleep()
     secs = seconds
     if (type(secs) is str):
         secs = int(secs.strip())
     elif (type(secs) is not int):
         secs = int(secs)
-    return _libc.sleep(secs)
-
+    while True:
+        try:
+            nr, blah1, blah2 = select.select([_fdpipe[0]], [], [], secs)
+            if nr:
+                os.read(_fdpipe[0], 16384)
+            break
+        except (IOError, OSError) as exc:
+            if exc.errno not in (errno.EINTR, errno.EAGAIN):
+                raise(exc)
+    return
