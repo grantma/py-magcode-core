@@ -43,6 +43,22 @@ from magcode.core.utility import get_numeric_setting
 
 log_object = None
 
+def _get_syslog_const(log_const):
+    """
+    Internal function to translate LOG_ strings to defines in
+    syslog module
+    """
+    if type(log_const) is not str:
+        return log_const
+    log_cstr = log_const
+    if not log_cstr.startswith('LOG_'):
+        log_cstr = 'LOG_' + log_cstr
+    try:
+        return getattr(syslog, log_cstr)
+    except AttributeError:
+        log_error("syslog_facility - '%s' is not defined." % log_cstr)
+        systemd_exit(os.EX_CONFIG, SDEX_CONFIG)
+
 class MagCodeSysLogHandler(logging.handlers.SysLogHandler):
     """Override broken SysLogHandler
     
@@ -56,9 +72,9 @@ class MagCodeSysLogHandler(logging.handlers.SysLogHandler):
         Open a logging session
         """
         logging.Handler.__init__(self)
-        self.facility = facility
+        self.facility = _get_syslog_const(facility)
         syslog.openlog(process_name,
-                syslog.LOG_PID|syslog.LOG_NDELAY, facility)
+                syslog.LOG_PID|syslog.LOG_NDELAY, self.facility)
         self.formatter = None
 
     def close(self):
@@ -160,7 +176,11 @@ class MagCodeLog(object):
         if (debug()):
             logging.root.setLevel(MAGLOG_DEBUG)
         else:
-            logging.root.setLevel(settings['log_level'])
+            try:
+                logging.root.setLevel(settings['log_level'])
+            except ValueError:
+                log_error("log_level - '%s' is not defined." % settings['log_level'])
+                systemd_exit(os.EX_CONFIG, SDEX_CONFIG)
    
     def _remove_all_log_handlers(self):
         if (hasattr(self, 'stderr_handler') and self.stderr_handler):
