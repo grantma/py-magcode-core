@@ -1,3 +1,11 @@
+python-magcode-core (1.5.3-1) unstable; urgency=medium
+
+  * Fix syslog facility setting from log_level
+  * Fix error handling for setting log_level
+  * Version 1.5.3 release
+
+ -- Matthew Grant <matt@mattgrant.net.nz>  Sat, 26 Jan 2019 07:43:03 +1300
+
 python-magcode-core (1.5.2-1) unstable; urgency=medium
 
   * Go to mix-in process MainSleep class to decruftify
