@@ -43,22 +43,6 @@ from magcode.core.utility import get_numeric_setting
 
 log_object = None
 
-def _get_syslog_const(log_const):
-    """
-    Internal function to translate LOG_ strings to defines in
-    syslog module
-    """
-    if type(log_const) is not str:
-        return log_const
-    log_cstr = log_const
-    if not log_cstr.startswith('LOG_'):
-        log_cstr = 'LOG_' + log_cstr
-    try:
-        return getattr(syslog, log_cstr)
-    except AttributeError:
-        log_error("syslog_facility - '%s' is not defined." % log_cstr)
-        systemd_exit(os.EX_CONFIG, SDEX_CONFIG)
-
 class MagCodeSysLogHandler(logging.handlers.SysLogHandler):
     """Override broken SysLogHandler
     
@@ -72,9 +56,9 @@ class MagCodeSysLogHandler(logging.handlers.SysLogHandler):
         Open a logging session
         """
         logging.Handler.__init__(self)
-        self.facility = _get_syslog_const(facility)
+        self.facility = facility
         syslog.openlog(process_name,
-                syslog.LOG_PID|syslog.LOG_NDELAY, self.facility)
+                syslog.LOG_PID|syslog.LOG_NDELAY, facility)
         self.formatter = None
 
     def close(self):
@@ -198,6 +182,22 @@ class MagCodeLog(object):
         self._init_log_handlers()
         #self.set_logging_level()
 
+    def _get_syslog_const(self, facility):
+        """
+        Internal function to translate LOG_ strings to defines in
+        syslog module
+        """
+        if type(facility) is not str:
+            return facility
+        log_cstr = facility
+        if not log_cstr.startswith('LOG_'):
+            log_cstr = 'LOG_' + log_cstr
+        try:
+            return getattr(syslog, log_cstr)
+        except AttributeError:
+            log_error("syslog_facility - '%s' is not defined." % log_cstr)
+            systemd_exit(os.EX_CONFIG, SDEX_CONFIG)
+
     def configure_syslog_logging(self):
         """
         Configure syslog logging
@@ -208,8 +208,8 @@ class MagCodeLog(object):
         if (hasattr(self, 'syslog_handler') and self.syslog_handler):
             logging.root.removeHandler(self.syslog_handler)
         if (settings['syslog_facility']):
-            self.syslog_handler = MagCodeSysLogHandler(
-                    facility = settings['syslog_facility'])
+            facility = self._get_syslog_const(settings['syslog_facility'])
+            self.syslog_handler = MagCodeSysLogHandler(facility=facility)
             self.syslog_handler.setFormatter(self.syslog_formatter)
             logging.root.addHandler(self.syslog_handler)
   
