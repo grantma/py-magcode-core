@@ -1,3 +1,10 @@
+python-magcode-core (1.5.4-1) unstable; urgency=medium
+
+  * More elegeant way of converting syslog_facility
+  * Module version 1.5.4
+
+ -- Matthew Grant <matt@mattgrant.net.nz>  Sat, 26 Jan 2019 08:08:39 +1300
+
 python-magcode-core (1.5.3-1) unstable; urgency=medium
 
   * Fix syslog facility setting from log_level
