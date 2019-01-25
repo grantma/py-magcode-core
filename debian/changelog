@@ -4,7 +4,7 @@ python-magcode-core (1.5.3-1) unstable; urgency=medium
   * Fix error handling for setting log_level
   * Version 1.5.3 release
 
- -- Matthew Grant <matt@mattgrant.net.nz>  Sat, 26 Jan 2019 07:43:03 +1300
+ -- Matthew Grant <matt@mattgrant.net.nz>  Sat, 26 Jan 2019 08:07:58 +1300
 
 python-magcode-core (1.5.2-1) unstable; urgency=medium
 
