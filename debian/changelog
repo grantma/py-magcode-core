@@ -1,3 +1,9 @@
+python-magcode-core (1.5.4-3) unstable; urgency=medium
+
+  * Source code only upload. (Closes: #970727)
+
+ -- Matthew Grant <matt@mattgrant.net.nz>  Wed, 23 Sep 2020 10:47:34 +1200
+
 python-magcode-core (1.5.4-2) unstable; urgency=medium
 
   * Fix Python dependencies for ython2 removal (Closes: #967202)
