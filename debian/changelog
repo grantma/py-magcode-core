@@ -1,3 +1,9 @@
+python-magcode-core (1.5.4-4) unstable; urgency=medium
+
+  * Convert to debian/rules to pybuild. (Closes: #972208)
+
+ -- Matthew Grant <matt@mattgrant.net.nz>  Thu, 15 Oct 2020 11:20:52 +1300
+
 python-magcode-core (1.5.4-3) unstable; urgency=medium
 
   * Source code only upload. (Closes: #970727)
