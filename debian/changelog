@@ -1,3 +1,12 @@
+python-magcode-core (1.5.4-5~1.gbp9aebb7) UNRELEASED; urgency=medium
+
+  ** SNAPSHOT build @9aebb76d948026465bd7441fd74f2f9dde61861a **
+
+  * Disable pybuild tests (no written tests for package), and include
+    python3-sqlalchemy in build-deps.  (Closes: #972655)
+
+ -- Matthew Grant <matt@mattgrant.net.nz>  Tue, 27 Oct 2020 09:43:04 +1300
+
 python-magcode-core (1.5.4-4) unstable; urgency=medium
 
   * Convert to debian/rules to pybuild. (Closes: #972208)
