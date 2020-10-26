@@ -5,6 +5,8 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 export PYBUILD_NAME=magcode-core
+# No tests written, disable to prevent build problems
+export PYBUILD_DISABLE=test
 
 %:
 	dh $@ --with python3 --buildsystem=pybuild
