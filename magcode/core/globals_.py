@@ -112,6 +112,8 @@ SDEX_NOTINSTALLED = 5   # Program is not installed
 SDEX_CONFIG = 6         # Program is not configured
 SDEX_NOTRUNNING = 7     # Program is not running
 
+# Dictionary for pre-initializing config file DEFAULTs
+settings['config_defaults'] = {}
 
 # Run as Systemd daemon
 settings['systemd'] = False

@@ -50,7 +50,7 @@ def core_read_config(config_section=None):
     else:
         config_section = process_name
 
-    config = configparser.ConfigParser()
+    config = configparser.ConfigParser(defaults=settings.get('config_defaults', None))
     try:
         config_file = open(settings['config_file'], 'rt')
         config.read_file(config_file)
